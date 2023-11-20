@@ -1,0 +1,194 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+
+def find_maximal_forward_references(traversal_log):
+    maximal_forward_references = set()
+    current_sequence = ''
+    visited_nodes = set()
+
+    for node_label in traversal_log:
+        if node_label in visited_nodes:
+            # Backward reference detected, start a new sequence
+            current_sequence = ''
+            visited_nodes.clear()  # Clear visited nodes when a backward reference is detected
+        else:
+            current_sequence += node_label
+            visited_nodes.add(node_label)
+
+        if len(visited_nodes) == 1:
+            # Only add the current node if it has not been visited before
+            maximal_forward_references.add(current_sequence)
+
+    return maximal_forward_references
+
+def visualize_tree(traversal_log):
+    G = nx.DiGraph()
+    current_node = None
+
+    for node_label in traversal_log:
+        if current_node is None:
+            # Root node
+            G.add_node(node_label)
+            current_node = node_label
+        else:
+            # Add an edge from the current node to the next node
+            G.add_edge(current_node, node_label)
+            current_node = node_label
+
+    pos = nx.spring_layout(G)
+    plt.figure(figsize=(12, 8))
+    nx.draw(G, pos, with_labels=True, arrows=True, node_size=1000, node_color='lightblue', font_size=10, font_color='black', font_weight='bold')
+    plt.title('Traversal Log as a Tree')
+    plt.show()
+
+# Given traversal log
+traversal_log = ['A', 'B', 'C', 'D', 'C', 'B', 'E', 'G', 'H', 'G', 'W', 'A', 'O', 'U', 'O', 'V']
+
+# Find maximal forward references
+maximal_forward_references = find_maximal_forward_references(traversal_log)
+
+# Print the result
+print("Maximal Forward References:", maximal_forward_references)
+
+# Visualize the tree
+visualize_tree(traversal_log)
+import matplotlib.pyplot as plt
+
+# Your data
+years = [1996, 1997, 1998, 1999, 2000, 2001]
+variable_b = [100, 150, 120, 150, 130, 150]
+
+# Create a filled step chart
+plt.step(years, variable_b, where='mid', color='blue', label='Variable B', alpha=0.7, linestyle='-', linewidth=2)
+plt.fill_between(years, variable_b, step='mid', color='blue', alpha=0.3)
+
+# Set labels and title
+plt.xlabel('Year')
+plt.ylabel('Variable B')
+plt.title('Histogram')
+
+# Show the plot
+plt.show()
+
+import matplotlib.pyplot as plt
+
+# Your data
+years = [1996, 1997, 1998, 1999, 2000, 2001]
+variable_b = [100, 150, 120, 150, 130, 150]
+
+# Create a histogram
+plt.hist(variable_b, bins=range(100, 151, 10), color='blue', alpha=0.7, edgecolor='black')
+
+# Set labels and title
+plt.xlabel('Variable B')
+plt.ylabel('Frequency')
+plt.title('Histogram of Variable B')
+
+# Show the plot
+plt.show()
+
+
+import matplotlib.pyplot as plt
+
+# Your data
+years = [1996, 1997, 1998, 1999, 2000, 2001]
+variable_b = [100, 150, 120, 150, 130, 150]
+
+# Create a line chart
+plt.plot(years, variable_b, marker='o', color='green', linestyle='-', linewidth=2, markersize=8)
+
+# Set labels and title
+plt.xlabel('Year')
+plt.ylabel('Variable B')
+plt.title('Line Chart of Variable B over Years')
+
+# Show the plot
+plt.show()
+
+import matplotlib.pyplot as plt
+
+# Your data
+variable_a = [7, 5, 7, 9, 5, 7]
+
+# Create a pie chart
+plt.pie(variable_a, labels=['1996', '1997', '1998', '1999', '2000', '2001'], autopct='%1.1f%%', startangle=90, colors=['red', 'orange', 'yellow', 'green', 'blue', 'purple'])
+
+# Set the title
+plt.title('Pie Chart of Variable A')
+
+# Show the plot
+plt.show()
+
+import matplotlib.pyplot as plt
+
+# Your data
+years = [1996, 1997, 1998, 1999, 2000, 2001]
+variable_a = [7, 5, 7, 9, 5, 7]
+variable_b = [100, 150, 120, 150, 130, 150]
+
+# Create a scatter plot
+plt.scatter(years, variable_a, label='Variable A', color='green')
+plt.scatter(years, variable_b, label='Variable B', color='purple')
+
+# Set labels and title
+plt.xlabel('Year')
+plt.ylabel('Values')
+plt.title('Scatter Plot for Variables A and B')
+
+# Add legend
+plt.legend()
+
+# Show the plot
+plt.show()
+import matplotlib.pyplot as plt
+import pandas as pd
+from scipy.stats import zscore
+
+# Given data
+data = {
+    'x1': ['A', 'B', 'A', 'A', 'B'],
+    'x2': [1, 3, 5, 2, 5],
+    'x3': [25, 27, 29, 21, 30],
+    'x4': [7, 3, 5, 9, 7],
+    'x5': [1, 1, 1, 0, 0],  # 'T' mapped to 1, 'F' mapped to 0
+    'x6': [1, 2, 1, 3, 1],
+    'x7': [5, 9, 7, 2, 7]
+}
+
+# Convert data to a DataFrame
+df = pd.DataFrame(data)
+
+# Plot parallel coordinates
+plt.figure(figsize=(10, 6))
+pd.plotting.parallel_coordinates(df, 'x1', color=('blue', 'green'), alpha=0.7)
+plt.title('Parallel Coordinates Plot for Seven-Dimensional Samples')
+plt.show()
+
+# Assuming your data is in a DataFrame named 'df'
+numerical_columns = ['x2', 'x3', 'x4', 'x5', 'x6', 'x7']
+z_scores = zscore(df[numerical_columns])
+outliers = (z_scores > 3) | (z_scores < -3)
+
+# Display the rows containing outliers
+outlier_rows = df[outliers.any(axis=1)]
+print("Rows with outliers:")
+print(outlier_rows)
+
+import pandas as pd
+
+# Assuming your data is in a DataFrame named 'df'
+# Selecting only the numerical columns for simplicity
+numerical_columns = ['x2', 'x3', 'x4', 'x5', 'x6', 'x7']
+
+# Calculate the IQR for each numerical column
+Q1 = df[numerical_columns].quantile(0.25)
+Q3 = df[numerical_columns].quantile(0.75)
+IQR = Q3 - Q1
+
+# Define a condition for outliers based on IQR
+outliers_iqr = ((df[numerical_columns] < (Q1 - 1.5 * IQR)) | (df[numerical_columns] > (Q3 + 1.5 * IQR)))
+
+# Display the rows containing outliers based on IQR
+outlier_rows_iqr = df[outliers_iqr.any(axis=1)]
+print("Rows with outliers (IQR method):")
+print(outlier_rows_iqr)
